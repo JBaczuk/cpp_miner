@@ -1,8 +1,10 @@
-=======
 # cpp-miner
 Basic c++ miner for testing
 
-## Installation```$ ./autogen.sh
+## Installation
+```
+$ ./autogen.sh
 $ ./configure
 $ make
 $ sudo make install
+```
