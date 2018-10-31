@@ -19,6 +19,7 @@ public:
     {}
 
     void serialize(unsigned char header[BLOCK_HEADER_SIZE_BYTES]);
+    void hash256(unsigned char* input, unsigned int size, unsigned char output[32]);
 };
 
 #endif

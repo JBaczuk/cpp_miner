@@ -12,12 +12,12 @@ AC_PROG_CXX
 
 # Checks for libraries.
 # FIXME: Replace `main' with a function in `-lboost_filesystem':
-AC_CHECK_LIB([boost_filesystem], [main], [], [AC_MSG_ERROR([Missing required lboost_filesystem])])
+AC_CHECK_LIB([boost_filesystem], [main], [], [AC_MSG_ERROR([Missing required libboost_filesystem])])
 # FIXME: Replace `main' with a function in `-lboost_program_options':
-AC_CHECK_LIB([boost_program_options], [main], [], [AC_MSG_ERROR([Missing required lboost_program_options])])
+AC_CHECK_LIB([boost_program_options], [main], [], [AC_MSG_ERROR([Missing required libboost_program_options])])
 # FIXME: Replace `main' with a function in `-lboost_system':
-AC_CHECK_LIB([boost_system], [main], [], [AC_MSG_ERROR([Missing required lboost_system])])
-AC_CHECK_LIB([secp256k1], [main], [], [AC_MSG_ERROR([Missing required libsecp256k1])])
+AC_CHECK_LIB([boost_system], [main], [], [AC_MSG_ERROR([Missing required libboost_system])])
+AC_CHECK_LIB([crypto], [main], [], [AC_MSG_ERROR([Missing required libcryto])])
 
 # Checks for header files.
 

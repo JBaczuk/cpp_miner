@@ -180,7 +180,9 @@ int main (int argc, char* argv[])
             }
             // Mine the block
             unsigned char serializedHeader[BLOCK_HEADER_SIZE_BYTES];
+            unsigned char blockHash[32];
             blockHeader.serialize(serializedHeader);
+            blockHeader.hash256(serializedHeader, BLOCK_HEADER_SIZE_BYTES, blockHash);
             return 0;
         }
 

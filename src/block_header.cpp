@@ -1,4 +1,5 @@
 #include <block_header.hpp>
+#include <openssl/sha.h>
 
 void BlockHeader::serialize(unsigned char serializedHeader[BLOCK_HEADER_SIZE_BYTES])
 {
@@ -12,3 +13,9 @@ void BlockHeader::serialize(unsigned char serializedHeader[BLOCK_HEADER_SIZE_BYT
 
 }
 
+void BlockHeader::hash256(unsigned char* input, unsigned int size, unsigned char output[32])
+{
+    unsigned char tmp[32];
+    SHA256(input, size, tmp);
+    SHA256(tmp, 32, output);
+}
