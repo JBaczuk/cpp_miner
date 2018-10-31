@@ -42,6 +42,13 @@ bool BlockHeader::checkPoW()
     {
         if(blockHash[i] < target[i])
         {
+            fprintf(stdout, "block header: ");
+            for(int i=0; i < 80; i++)
+            {
+                fprintf(stdout, "%02x", serializedHeader[i]);
+            }
+            fprintf(stdout, "\n");
+
             fprintf(stdout, "nonce: 0x%02x%02x%02x%02x\n", nonce[0], nonce[1], nonce[2], nonce[3]);
             
             fprintf(stdout, "block hash: ");
@@ -55,6 +62,13 @@ bool BlockHeader::checkPoW()
         }
         else
         {
+            //fprintf(stdout, "nonce: 0x%02x%02x%02x%02x\n", nonce[0], nonce[1], nonce[2], nonce[3]);
+            //fprintf(stdout, "block header: ");
+            //for(int i=0; i < 80; i++)
+            //{
+            //    fprintf(stdout, "%02x", serializedHeader[i]);
+            //}
+            //fprintf(stdout, "\n");
             //fprintf(stdout, "block hash: ");
             //for(int i=0; i < 32; i++)
             //{
@@ -70,15 +84,15 @@ void BlockHeader::incrementNonce()
 {
     for(int i=0; i < 4; i++)
     {
-        if (serializedHeader[BLOCK_HEADER_SIZE_BYTES - 5 + i] < 0xff)
+        if (serializedHeader[BLOCK_HEADER_SIZE_BYTES - 4 + i] < 0xff)
         {
-            serializedHeader[BLOCK_HEADER_SIZE_BYTES - 5 + i]++;
+            serializedHeader[BLOCK_HEADER_SIZE_BYTES - 4 + i]++;
             break;
         }
-        else if (i < 3 && serializedHeader[BLOCK_HEADER_SIZE_BYTES - 5 + i] == 0xff)
+        else if (i < 3 && serializedHeader[BLOCK_HEADER_SIZE_BYTES - 4 + i] == 0xff)
         {
-            serializedHeader[BLOCK_HEADER_SIZE_BYTES - 5 + i] == 0;
-            serializedHeader[BLOCK_HEADER_SIZE_BYTES - 5 + i + 1] = serializedHeader[BLOCK_HEADER_SIZE_BYTES - 5 + i + 1] + 1;
+            serializedHeader[BLOCK_HEADER_SIZE_BYTES - 4 + i] == 0;
+            serializedHeader[BLOCK_HEADER_SIZE_BYTES - 4 + i + 1] = serializedHeader[BLOCK_HEADER_SIZE_BYTES - 5 + i + 1] + 1;
             break;
         }
         else if (i == 3 && nonce[i] == 0xff)
@@ -87,6 +101,6 @@ void BlockHeader::incrementNonce()
             return;
         }
     }
-    copy(serializedHeader + BLOCK_HEADER_SIZE_BYTES - 5, serializedHeader + BLOCK_HEADER_SIZE_BYTES - 1, nonce.begin());
+    copy(serializedHeader + BLOCK_HEADER_SIZE_BYTES - 4, serializedHeader + BLOCK_HEADER_SIZE_BYTES - 1, nonce.begin());
 }
 
