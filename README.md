@@ -1,5 +1,5 @@
 # cpp-miner
-Basic c++ miner for testing
+Basic c++ miner. This will not mine actual Bitcoin (it is much too slow), but is useful for testing, generating test fixtures, and learning how Bitcoin mining works at a basic level.
 
 ## Installation
 ```
