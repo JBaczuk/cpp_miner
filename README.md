@@ -19,12 +19,16 @@ $ sudo apt-get install openssl
 ```
 
 ## Installation
+Option 1:
+Build from source
 ```
 $ ./autogen.sh
 $ ./configure
 $ make
 $ sudo make install # Optional
 ```
+Option 2:
+Download the latest release from https://github.com/utah-bitcoin-community/cpp_miner/releases/ and either copy to a system directory like `/usr/local/bin` or add the folder to your `$PATH`.
 
 ## Usage
 The cpp_miner accepts the block header in two ways:
