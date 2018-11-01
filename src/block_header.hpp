@@ -3,6 +3,7 @@
 
 #include <vector>
 #define BLOCK_HEADER_SIZE_BYTES     80
+#include <stdint.h>
 
 class BlockHeader
 {
@@ -29,6 +30,8 @@ public:
 private:
     bool checkPoW();
     void incrementNonce();
+    uint32_t nonceToInt();
+    void intToNonce(uint32_t nonceInt);
 };
 
 #endif

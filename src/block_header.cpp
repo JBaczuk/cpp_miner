@@ -2,6 +2,8 @@
 #include <openssl/sha.h>
 #include <stdexcept>
 #include <stdio.h>
+#include <stdint.h>
+#include <limits.h>
 
 void BlockHeader::serialize()
 {
@@ -60,47 +62,41 @@ bool BlockHeader::checkPoW()
 
             return true;
         }
-        else
+        else if(blockHash[i] > target[i])
         {
-            //fprintf(stdout, "nonce: 0x%02x%02x%02x%02x\n", nonce[0], nonce[1], nonce[2], nonce[3]);
-            //fprintf(stdout, "block header: ");
-            //for(int i=0; i < 80; i++)
-            //{
-            //    fprintf(stdout, "%02x", serializedHeader[i]);
-            //}
-            //fprintf(stdout, "\n");
-            //fprintf(stdout, "block hash: ");
-            //for(int i=0; i < 32; i++)
-            //{
-            //    fprintf(stdout, "%02x", blockHash[i]);
-            //}
-            //fprintf(stdout, "\n");
             return false;
         }
     }
+    return false;
 }
 
 void BlockHeader::incrementNonce()
 {
-    for(int i=0; i < 4; i++)
+    uint32_t nonceInt = nonceToInt();
+    if (nonceInt == ULONG_MAX)
     {
-        if (serializedHeader[BLOCK_HEADER_SIZE_BYTES - 4 + i] < 0xff)
-        {
-            serializedHeader[BLOCK_HEADER_SIZE_BYTES - 4 + i]++;
-            break;
-        }
-        else if (i < 3 && serializedHeader[BLOCK_HEADER_SIZE_BYTES - 4 + i] == 0xff)
-        {
-            serializedHeader[BLOCK_HEADER_SIZE_BYTES - 4 + i] == 0;
-            serializedHeader[BLOCK_HEADER_SIZE_BYTES - 4 + i + 1] = serializedHeader[BLOCK_HEADER_SIZE_BYTES - 5 + i + 1] + 1;
-            break;
-        }
-        else if (i == 3 && nonce[i] == 0xff)
-        {
-            throw std::runtime_error("incrementNonce Error: We have exhausted all possible nonce values");
-            return;
-        }
+        throw std::runtime_error("incrementNonce Error: We have exhausted all possible nonce values");
+        return;
     }
-    copy(serializedHeader + BLOCK_HEADER_SIZE_BYTES - 4, serializedHeader + BLOCK_HEADER_SIZE_BYTES - 1, nonce.begin());
+    else
+    {
+        nonceInt++;
+        intToNonce(nonceInt);
+    }
+}
+
+uint32_t BlockHeader::nonceToInt()
+{
+    uint32_t nonceInt = (nonce[0] << 24) | (nonce[1] << 16) | (nonce[2] << 8) | nonce[3];
+    return nonceInt;
+}
+
+void BlockHeader::intToNonce(uint32_t nonceInt)
+{
+    nonce[0] = nonceInt >> 24;
+    nonce[1] = nonceInt >> 16;
+    nonce[2] = nonceInt >> 8;
+    nonce[3] = nonceInt;
+    std::copy(nonce.begin(), nonce.begin() + nonce.size(), serializedHeader + nVersion.size() + hashPrevBlock.size() + merkleRoot.size() + time.size() + nBits.size());
 }
 
