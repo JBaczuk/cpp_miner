@@ -1,6 +1,23 @@
 # cpp-miner
 Basic c++ miner. This will not mine actual Bitcoin (it is much too slow), but is useful for testing, generating test fixtures, and learning how Bitcoin mining works at a basic level.
 
+## Dependencies
+- openssl
+- boost
+
+### Mac
+Note: Currently this does not build yet on mac.
+```
+$ brew install openssl
+$ brew install boost
+```
+
+### Ubuntu
+```
+$ sudo apt-get install libboost-all-dev
+$ sudo apt-get install openssl
+```
+
 ## Installation
 ```
 $ ./autogen.sh

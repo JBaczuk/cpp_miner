@@ -11,13 +11,15 @@ AC_CONFIG_HEADERS([config.h])
 AC_PROG_CXX
 
 # Checks for libraries.
+#LDFLAGS='$LDFLAGS -L/usr/local/opt/openssl/lib'
+#CPPFLAGS='$CPPFLAGS -I/usr/local/opt/openssl/include'
 # FIXME: Replace `main' with a function in `-lboost_filesystem':
 AC_CHECK_LIB([boost_filesystem], [main], [], [AC_MSG_ERROR([Missing required libboost_filesystem])])
 # FIXME: Replace `main' with a function in `-lboost_program_options':
 AC_CHECK_LIB([boost_program_options], [main], [], [AC_MSG_ERROR([Missing required libboost_program_options])])
 # FIXME: Replace `main' with a function in `-lboost_system':
 AC_CHECK_LIB([boost_system], [main], [], [AC_MSG_ERROR([Missing required libboost_system])])
-AC_CHECK_LIB([crypto], [main], [], [AC_MSG_ERROR([Missing required libcryto])])
+AC_CHECK_LIB([crypto], [main], [], [AC_MSG_ERROR([Missing required libcrypto])])
 
 # Checks for header files.
 
