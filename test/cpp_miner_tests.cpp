@@ -2,7 +2,10 @@
 #include <boost/test/unit_test.hpp>
 #include <util.hpp>
 #include <vector>
+<<<<<<< HEAD
 #include <transaction.hpp>
+=======
+>>>>>>> Use nbits instead of target parameter. Fixes #3
 
 BOOST_AUTO_TEST_SUITE(test_util)
 
@@ -23,6 +26,7 @@ BOOST_AUTO_TEST_CASE(test_nBitsToTarget)
     std::vector<unsigned char> expected {0,0,0,0,0,0,0,0,0x1b,0xc3,0x30,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
     std::vector<unsigned char> actual = nBitsToTarget(404472624);
     BOOST_CHECK_EQUAL_COLLECTIONS(expected.begin(), expected.end(), actual.begin(), actual.end());
+<<<<<<< HEAD
 }
 
 BOOST_AUTO_TEST_CASE(test_calculateMerkleRoot)
@@ -111,6 +115,8 @@ BOOST_AUTO_TEST_CASE(test_intToHex)
     std::vector<unsigned char> expected {0x1d,0xac,0x2b,0x7c};
     std::vector<unsigned char> actual = intToHex(2083236893);
     BOOST_CHECK_EQUAL_COLLECTIONS(expected.begin(), expected.end(), actual.begin(), actual.end());
+=======
+>>>>>>> Use nbits instead of target parameter. Fixes #3
 }
 
 BOOST_AUTO_TEST_SUITE_END()

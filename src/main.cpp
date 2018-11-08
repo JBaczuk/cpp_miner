@@ -217,8 +217,8 @@ int main (int argc, char* argv[])
                 blockHeader.time.assign(rawBlockHeader.begin() + 68, rawBlockHeader.begin() + 72);
                 blockHeader.nBits.assign(rawBlockHeader.begin() + 72, rawBlockHeader.begin() + 76);
                 blockHeader.nonce.assign(rawBlockHeader.begin() + 76, rawBlockHeader.begin() + 80);
-		            std::vector<unsigned char> reversedNBits = blockHeader.nBits;
-		            std::reverse(reversedNBits.begin(), reversedNBits.end());
+		        std::vector<unsigned char> reversedNBits = blockHeader.nBits;
+		        std::reverse(reversedNBits.begin(), reversedNBits.end());
                 blockHeader.target = nBitsToTarget(reversedNBits.end()[-1] | (reversedNBits.end()[-2] << 8) | (reversedNBits.end()[-3] << 16) | (reversedNBits.end()[-4] << 24));
 
                 fprintf(stdout, "target: ");
