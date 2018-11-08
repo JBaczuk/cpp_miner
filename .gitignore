@@ -57,7 +57,6 @@ Makefile
 *.in*
 *.orig
 
-**/Makefile.am
 **/*.log
 **/*.trs
 
