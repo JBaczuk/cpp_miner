@@ -1,4 +1,5 @@
 #include <util.hpp>
+#include <endian.h>
 
 const signed char p_util_hexdigit[256] =
 { -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
@@ -65,3 +66,14 @@ bool isSpace(char c)
 {
     return c == ' ' || c == '\f' || c == '\n' || c == '\r' || c == '\t' || c == '\v';
 }
+
+std::vector<unsigned char> nBitsToTarget(uint32_t nBits)
+{
+    std::vector<unsigned char> target(32);
+    int size = nBits >> 24;
+    target.end()[-size] = (nBits & (255 << 16) ) >> 16;
+    target.end()[-size + 1] = (nBits & (255 << 8) ) >> 8;
+    target.end()[-size + 2] = nBits & 255;
+    return target;
+}
+
