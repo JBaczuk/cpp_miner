@@ -71,15 +71,14 @@ int main (int argc, char* argv[])
             auto params = vm["command"].as<vector<string>>();
             BlockHeader blockHeader;
 
-            if (params.size() < 3)
+            if (params.size() < 2)
             {
-                std::cout << "Usage: mine <blockHeader 80B> <target 32B> OR <version 4B> <hashPrevBlock 32B> <merkleRoot 32B> <time 4B> <nBits 4B> <nonce 4B> <target 32B>\n";
+                std::cout << "Usage: mine <blockHeader 80B> OR <version 4B> <hashPrevBlock 32B> <merkleRoot 32B> <time 4B> <nBits 4B> <nonce 4B>\n";
                 return -1;
             }
-            if (params.size() == 3)
+            if (params.size() == 2)
             {
 				auto rawBlockHeader = parseHex(params[1].c_str());
-				auto target = parseHex(params[2].c_str());
                 if(rawBlockHeader.size() == 0)
                 {
                     throw std::logic_error("Block header is not valid hex");
@@ -90,16 +89,6 @@ int main (int argc, char* argv[])
                     throw std::logic_error("Block header must be 80 bytes");
                     return -1;
                 }
-                else if(target.size() == 0)
-                {
-                    throw std::logic_error("Target is not valid hex");
-                    return -1;
-                }
-                else if(target.size() != 32)
-                {
-                    throw std::logic_error("Target must be 32 bytes");
-                    return -1;
-                }
 
                 blockHeader.nVersion.assign(rawBlockHeader.begin(), rawBlockHeader.begin() + 4);
                 blockHeader.hashPrevBlock.assign(rawBlockHeader.begin() + 4, rawBlockHeader.begin() + 36);
@@ -107,7 +96,14 @@ int main (int argc, char* argv[])
                 blockHeader.time.assign(rawBlockHeader.begin() + 68, rawBlockHeader.begin() + 72);
                 blockHeader.nBits.assign(rawBlockHeader.begin() + 72, rawBlockHeader.begin() + 76);
                 blockHeader.nonce.assign(rawBlockHeader.begin() + 76, rawBlockHeader.begin() + 80);
-                blockHeader.target.assign(target.begin(), target.end());
+                blockHeader.target = nBitsToTarget(blockHeader.nBits.end()[-1] | (blockHeader.nBits.end()[-2] << 8) | (blockHeader.nBits.end()[-3] << 16) | (blockHeader.nBits.end()[4] << 24));
+
+                fprintf(stdout, "target: ");
+                for (int i=0; i<blockHeader.target.size(); i++)
+                {
+                    fprintf(stdout, "%02x", blockHeader.target[i]);
+                }
+                fprintf(stdout, "\n");
             }
             else
             {
@@ -152,13 +148,6 @@ int main (int argc, char* argv[])
                     throw std::logic_error("nonce is not valid hex");
                     return -1;
                 }
-                
-                auto target = parseHex(params[7].c_str());
-                if(target.size() == 0)
-                {
-                    throw std::logic_error("target is not valid hex");
-                    return -1;
-                }
 
                 if(version.size() != 4)
                 {
@@ -190,11 +179,6 @@ int main (int argc, char* argv[])
                     throw std::logic_error("nonce must be 4 bytes");
                     return -1;
                 }
-                if(target.size() != 32)
-                {
-                    throw std::logic_error("target must be 32 bytes");
-                    return -1;
-                }
 
                 blockHeader.nVersion.assign(version.begin(), version.end());
                 blockHeader.hashPrevBlock.assign(hashPrevBlock.begin(), hashPrevBlock.end());
@@ -202,7 +186,7 @@ int main (int argc, char* argv[])
                 blockHeader.time.assign(time.begin(), time.end());
                 blockHeader.nBits.assign(nBits.begin(), nBits.end());
                 blockHeader.nonce.assign(nonce.begin(), nonce.end());
-                blockHeader.target.assign(target.begin(), target.end());
+                blockHeader.target = nBitsToTarget(blockHeader.nBits.end()[-1] | (blockHeader.nBits.end()[-2] << 8) | (blockHeader.nBits.end()[-3] << 16) | (blockHeader.nBits.end()[4] << 24));
             }
             // Mine the block
             blockHeader.serialize();
