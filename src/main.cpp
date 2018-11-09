@@ -96,7 +96,7 @@ int main (int argc, char* argv[])
                 blockHeader.time.assign(rawBlockHeader.begin() + 68, rawBlockHeader.begin() + 72);
                 blockHeader.nBits.assign(rawBlockHeader.begin() + 72, rawBlockHeader.begin() + 76);
                 blockHeader.nonce.assign(rawBlockHeader.begin() + 76, rawBlockHeader.begin() + 80);
-                blockHeader.target = nBitsToTarget(blockHeader.nBits.end()[-1] | (blockHeader.nBits.end()[-2] << 8) | (blockHeader.nBits.end()[-3] << 16) | (blockHeader.nBits.end()[4] << 24));
+                blockHeader.target = nBitsToTarget(blockHeader.nBits.end()[-1] | (blockHeader.nBits.end()[-2] << 8) | (blockHeader.nBits.end()[-3] << 16) | (blockHeader.nBits.end()[-4] << 24));
 
                 fprintf(stdout, "target: ");
                 for (int i=0; i<blockHeader.target.size(); i++)
