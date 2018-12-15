@@ -15,19 +15,18 @@ int main (int argc, char* argv[])
 	try
     {
         std::string appName = boost::filesystem::basename(argv[0]);
-        bool some_flag_en;
         string command;
+	int verbosity = 0;
         vector<string> command_params;
-        string genesisGenUsage = "$ cpp_miner genesisgen <pubkey 65B> \"<coinbase-message 91B>\" value <int> <time 4B> <nBits 4B> <nonce 4B>";
-        string mineUsage = "$ cpp_miner mine <blockHeader 80B> OR <version 4B> <hashPrevBlock 32B> <merkleRoot 32B> <time 4B> <nBits 4B> <nonce 4B>\n";
+
+	string mineUsage = "$ cpp_miner mine <blockHeader 80B-hex> OR <version 4B-hex> <hashPrevBlock 32B-hex> <merkleRoot 32B-hex> <time 4B-hex> <nBits 4B-hex> <nonce 4B-hex>";
+        string genesisGenUsage = "$ cpp_miner genesisgen <pubkey 65B-hex> \"<coinbase-message 91B-string>\" <value 8B-decimal> <time 4B-hex> <nBits 4B-hex> <nonce 4B-hex>";
 
         po::options_description desc("Allowed options");
         desc.add_options()
             ("help", "Show this help message")
-            ("verbose,v", po::value<int>()->implicit_value(1),
-                  "Enable verbosity (optionally specify level)")
-            ("some_flag,t", po::bool_switch(&some_flag_en)->default_value(false),
-                  "Use some_flag configuration")
+	    ("verbosity,v", po::value<int>()->implicit_value(1),
+"Enable verbosity (optionally specify level)")
             ("command", po::value< vector<string> >(), "Command");
 
         po::positional_options_description p;
@@ -54,13 +53,10 @@ int main (int argc, char* argv[])
             command_params = command_params_new;
         }
 
-        if (vm.count("verbose")) {
-            std::cout << "Verbosity enabled.  Level is " << vm["verbose"].as<int>()
-                 << "\n";
-        }
-
-        if (some_flag_en) {
-            std::cout << "Some flag enabled." << "\n";
+        if (vm.count("verbosity"))
+        {
+	    verbosity = vm["verbosity"].as<int>();
+	    std::cout << "Verbosity enabled.  Level is " << verbosity << "\n";
         }
 
         // Command Handler
@@ -164,7 +160,7 @@ int main (int argc, char* argv[])
             blockHeader.target = nBitsToTarget(reversedNBits.end()[-1] | (reversedNBits.end()[-2] << 8) | (reversedNBits.end()[-3] << 16) | (reversedNBits.end()[-4] << 24));
             
             // Mine the block
-            blockHeader.mine();
+            blockHeader.mine(verbosity);
 
 	    std::vector<unsigned char> merkleRootSwapped = blockHeader.merkleRoot;
 	    std::reverse(merkleRootSwapped.begin(), merkleRootSwapped.end());
@@ -276,7 +272,7 @@ int main (int argc, char* argv[])
                 blockHeader.target = nBitsToTarget(reversedNBits.end()[-1] | (reversedNBits.end()[-2] << 8) | (reversedNBits.end()[-3] << 16) | (reversedNBits.end()[-4] << 24));
             }
             // Mine the block
-            blockHeader.mine();
+            blockHeader.mine(verbosity);
             return 0;
         }
 
@@ -284,7 +280,7 @@ int main (int argc, char* argv[])
         {
             std::cout << std::endl << "Usage: $ cpp_miner command [options]\n";
             std::cout << desc;
-            std::cout << std::endl << "Commands" << std::endl << mineUsage << genesisGenUsage << std::endl << std::endl;
+            std::cout << std::endl << "Commands" << std::endl << mineUsage << std::endl << genesisGenUsage << std::endl << std::endl;
         }
 
     }

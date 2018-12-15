@@ -24,7 +24,7 @@ public:
 
     void serialize();
     void hash256();
-    void mine();
+    void mine(uint8_t verbosity);
 
 private:
     bool checkPoW();

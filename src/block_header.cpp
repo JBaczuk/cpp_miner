@@ -16,12 +16,12 @@ void BlockHeader::serialize()
     serializedHeader.insert(serializedHeader.end(), nonce.begin(), nonce.end());
     isSerialized = true;
 
-    fprintf(stdout, "header: ");
-    for (int i=0; i < BLOCK_HEADER_SIZE_BYTES; i++)
-    {
-        fprintf(stdout, "%02x", serializedHeader[i]);
-    }
-    fprintf(stdout, "\n");
+    //fprintf(stdout, "header: ");
+    //for (int i=0; i < BLOCK_HEADER_SIZE_BYTES; i++)
+    //{
+    //    fprintf(stdout, "%02x", serializedHeader[i]);
+    //}
+    //fprintf(stdout, "\n");
 
     /*
      * Expected block for cpp_miner genesis block
@@ -52,26 +52,31 @@ void BlockHeader::hash256()
     hash.assign(blockHash, blockHash + 32); 
     std::reverse(hash.begin(), hash.end());
 
-    fprintf(stdout, "block hash: ");
-    for(int i=0; i < 32; i++)
-    {
-        fprintf(stdout, "%02x", hash[i]);
-    }
-    fprintf(stdout, "\n");
-
 
 }
 
-void BlockHeader::mine()
+void BlockHeader::mine(uint8_t verbosity)
 {
     serialize();
     hash256();
-    //while(!checkPoW())
+    while(!checkPoW())
     {
-        //incrementNonce();
-        //hash256();
+        incrementNonce();
+        hash256();
 
-	fprintf(stdout, "nonce: %02x%0x%0x%0x\n", nonce[0], nonce[1], nonce[2], nonce[3]); 
+	if(verbosity > 0)
+	{
+	    fprintf(stdout, "nonce: %02x%0x%0x%0x\n", nonce[0], nonce[1], nonce[2], nonce[3]); 
+	    if(verbosity > 1)
+	    {
+    	    	fprintf(stdout, "block hash: ");
+    	    	for(int i=0; i < 32; i++)
+    	    	{
+    	    	    fprintf(stdout, "%02x", hash[i]);
+    	    	}
+    	    	fprintf(stdout, "\n");
+	    }
+        }
     }
 }
 

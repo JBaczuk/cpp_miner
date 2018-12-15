@@ -39,8 +39,8 @@ Allowed options:
   --command arg               Command
 
 Commands
-$ cpp_miner mine <blockHeader 80B> OR <version 4B> <hashPrevBlock 32B> <merkleRoot 32B> <time 4B> <nBits 4B> <nonce 4B>
-$ cpp_miner genesisgen <pubkey 65B> "<coinbase-message 91B>" value <int> <time 4B> <nBits 4B> <nonce 4B>
+$ cpp_miner mine <blockHeader 80B-hex> OR <version 4B-hex> <hashPrevBlock 32B-hex> <merkleRoot 32B-hex> <time 4B-hex> <nBits 4B-hex> <nonce 4B-hex>
+$ cpp_miner genesisgen <pubkey 65B-hex> "<coinbase-message 91B-string>" <value 8B-decimal> <time 4B-hex> <nBits 4B-hex> <nonce 4B-hex>
 ```
 
 You can mine a given block header using `$ cpp_miner mine` or you can mine a genesis block from the given genesis block parameters using `$ cpp_miner genesisgen`.
