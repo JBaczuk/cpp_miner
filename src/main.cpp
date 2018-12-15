@@ -18,15 +18,20 @@ int main (int argc, char* argv[])
         string command;
 	int verbosity = 0;
         vector<string> command_params;
-        string genesisGenUsage = "$ cpp_miner genesisgen <pubkey 65B> \"<coinbase-message 91B>\" value <int> <time 4B> <nBits 4B> <nonce 4B>";
-        string mineUsage = "$ cpp_miner mine <blockHeader 80B> OR <version 4B> <hashPrevBlock 32B> <merkleRoot 32B> <time 4B> <nBits 4B> <nonce 4B>\n";
+
+	string mineUsage = "$ cpp_miner mine <blockHeader 80B-hex> OR <version 4B-hex> <hashPrevBlock 32B-hex> <merkleRoot 32B-hex> <time 4B-hex> <nBits 4B-hex> <nonce 4B-hex>";
+        string genesisGenUsage = "$ cpp_miner genesisgen <pubkey 65B-hex> \"<coinbase-message 91B-string>\" <value 8B-decimal> <time 4B-hex> <nBits 4B-hex> <nonce 4B-hex>";
 
 	string mineUsage = "$ cpp_miner mine <blockHeader 80B-hex> OR <version 4B-hex> <hashPrevBlock 32B-hex> <merkleRoot 32B-hex> <time 4B-hex> <nBits 4B-hex> <nonce 4B-hex>";
         string genesisGenUsage = "$ cpp_miner genesisgen <pubkey 65B-hex> \"<coinbase-message 91B-string>\" <value 8B-decimal> <time 4B-hex> <nBits 4B-hex> <nonce 4B-hex>";
 
         po::options_description desc("Allowed options");
         desc.add_options()
+<<<<<<< HEAD
             ("help,h", "Show this help message")
+=======
+            ("help", "Show this help message")
+>>>>>>> add verbose modes
 	    ("verbosity,v", po::value<int>()->implicit_value(1),
 "Enable verbosity (optionally specify level)")
             ("command", po::value< vector<string> >(), "Command");
