@@ -51,8 +51,6 @@ void BlockHeader::hash256()
 
     hash.assign(blockHash, blockHash + 32); 
     std::reverse(hash.begin(), hash.end());
-
-
 }
 
 void BlockHeader::mine(uint8_t verbosity)
@@ -64,18 +62,18 @@ void BlockHeader::mine(uint8_t verbosity)
         incrementNonce();
         hash256();
 
-	if(verbosity > 0)
-	{
-	    fprintf(stdout, "nonce: %02x%02x%02x%02x\n", nonce[0], nonce[1], nonce[2], nonce[3]); 
-	    if(verbosity > 1)
-	    {
-    	    	fprintf(stdout, "block hash: ");
-    	    	for(int i=0; i < 32; i++)
-    	    	{
-    	    	    fprintf(stdout, "%02x", hash[i]);
-    	    	}
-    	    	fprintf(stdout, "\n");
-	    }
+        if(verbosity > 0)
+        {
+            fprintf(stdout, "nonce: %02x%02x%02x%02x\n", nonce[0], nonce[1], nonce[2], nonce[3]); 
+            if(verbosity > 1)
+            {
+                    fprintf(stdout, "block hash: ");
+                    for(int i=0; i < 32; i++)
+                    {
+                        fprintf(stdout, "%02x", hash[i]);
+                    }
+                    fprintf(stdout, "\n");
+            }
         }
     }
 }
