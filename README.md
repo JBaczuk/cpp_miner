@@ -18,7 +18,6 @@ $ brew install openssl boost
 ### Linux
 ```
 $ sudo apt-get install libboost-all-dev libssl-dev
-
 ```
 
 ## Installation
