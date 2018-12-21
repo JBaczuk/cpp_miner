@@ -66,7 +66,7 @@ void BlockHeader::mine(uint8_t verbosity)
 
 	if(verbosity > 0)
 	{
-	    fprintf(stdout, "nonce: %02x%0x%0x%0x\n", nonce[0], nonce[1], nonce[2], nonce[3]); 
+	    fprintf(stdout, "nonce: %02x%02x%02x%02x\n", nonce[0], nonce[1], nonce[2], nonce[3]); 
 	    if(verbosity > 1)
 	    {
     	    	fprintf(stdout, "block hash: ");

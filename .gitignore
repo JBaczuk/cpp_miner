@@ -63,3 +63,5 @@ Makefile
 # Binaries
 cpp_miner_tests
 cpp_miner
+*.Tpo
+*.gz
