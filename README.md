@@ -11,12 +11,14 @@ $ sudo make install
 ```
 
 ### macOS
-`$ brew install openssl`
-libsecp256k1
-boost
-##$ Linux
-libsecp256k1
-boost
+```
+$ brew install openssl boost
+```
+
+### Linux
+```
+$ sudo apt-get install libboost-all-dev libssl-dev
+```
 
 ## Installation
 ```
