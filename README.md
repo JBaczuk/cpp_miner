@@ -18,14 +18,17 @@ $ brew install openssl boost
 ### Linux
 ```
 $ sudo apt-get install libboost-all-dev libssl-dev
+
 ```
 
 ## Installation
+Option 1:
+Build from source
 ```
 $ ./autogen.sh
 $ ./configure
 $ make
-$ sudo make install
+$ sudo make install # Optional
 ```
 Note: To build on MacOS, configure using `LDFLAGS="-L/usr/local/opt/openssl/lib" ./configure`
 
