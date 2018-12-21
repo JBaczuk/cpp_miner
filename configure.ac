@@ -3,28 +3,42 @@
 
 AC_PREREQ([2.69])
 AC_INIT([cpp_miner], [0.0.1], [Jordan.Baczuk@gmail.com])
-AM_INIT_AUTOMAKE
+AM_INIT_AUTOMAKE(subdir-objects)
 AC_CONFIG_SRCDIR([src/main.cpp])
 AC_CONFIG_HEADERS([config.h])
+
+# Specify the directory of additional local Autoconf macros.
+AC_CONFIG_MACRO_DIR([m4])
 
 # Checks for programs.
 AC_PROG_CXX
 
-# Checks for libraries.
-#LDFLAGS='$LDFLAGS -L/usr/local/opt/openssl/lib'
-#CPPFLAGS='$CPPFLAGS -I/usr/local/opt/openssl/include'
-# FIXME: Replace `main' with a function in `-lboost_filesystem':
-AC_CHECK_LIB([boost_filesystem], [main], [], [AC_MSG_ERROR([Missing required libboost_filesystem])])
-# FIXME: Replace `main' with a function in `-lboost_program_options':
-AC_CHECK_LIB([boost_program_options], [main], [], [AC_MSG_ERROR([Missing required libboost_program_options])])
-# FIXME: Replace `main' with a function in `-lboost_system':
-AC_CHECK_LIB([boost_system], [main], [], [AC_MSG_ERROR([Missing required libboost_system])])
-AC_CHECK_LIB([crypto], [main], [], [AC_MSG_ERROR([Missing required libcrypto])])
+# Check for baseline language coverage in the compiler for the C++11 standard.
+#------------------------------------------------------------------------------
+AX_CXX_COMPILE_STDCXX_11([noext], [mandatory])
+
+# Require c++11 for all c++ products.
+#------------------------------------------------------------------------------
+AS_CASE([${CC}], [*],
+    [AX_CHECK_COMPILE_FLAG([-std=c++11],
+[CXXFLAGS="$CXXFLAGS -std=c++11"])])
+
+# Check for pkg-config.
+PKG_PROG_PKG_CONFIG
+AS_IF([test -n "$PKG_CONFIG"], [],
+    [AC_MSG_ERROR([pkg-config is required but was not found.])])
+
+# Boost
+# ---------------------
+AX_BOOST_BASE([1.47.0])
+
+AX_BOOST_SYSTEM
+AX_BOOST_PROGRAM_OPTIONS
+AX_BOOST_UNIT_TEST_FRAMEWORK
 
 # Checks for header files.
 
 # Checks for typedefs, structures, and compiler characteristics.
-AC_CHECK_HEADER_STDBOOL
 
 # Checks for library functions.
 

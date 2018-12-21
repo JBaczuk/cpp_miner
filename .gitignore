@@ -56,3 +56,12 @@ Makefile
 *.Po
 *.in*
 *.orig
+
+**/*.log
+**/*.trs
+
+# Binaries
+cpp_miner_tests
+cpp_miner
+*.Tpo
+*.gz

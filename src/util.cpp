@@ -1,4 +1,10 @@
 #include <util.hpp>
+#ifdef __APPLE__
+    #include <machine/endian.h>
+#elif __linux__
+    #include <endian.h>
+#endif
+#include <stdio.h>
 
 const signed char p_util_hexdigit[256] =
 { -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
@@ -65,3 +71,39 @@ bool isSpace(char c)
 {
     return c == ' ' || c == '\f' || c == '\n' || c == '\r' || c == '\t' || c == '\v';
 }
+
+std::vector<unsigned char> nBitsToTarget(uint32_t nBits)
+{
+    std::vector<unsigned char> target(32);
+    int size = nBits >> 24;
+    target.end()[-size] = (nBits & 0x00ff0000) >> 16;
+    target.end()[-size + 1] = (nBits & 0x0000ff00) >> 8;
+    target.end()[-size + 2] = nBits & 0x000000ff;
+    return target;
+}
+
+std::vector<unsigned char> intToHex(uint32_t value)
+{
+    std::vector<unsigned char> charVector = {
+	    (value & 0x000000ff),
+	    (value & 0x0000ff00)  >> 8,
+	    (value & 0x00ff0000)  >> 16,
+	    (value & 0xff000000)  >> 24
+    };
+    return charVector;
+};
+
+std::vector<unsigned char> bigIntToHex(uint64_t value)
+{
+    std::vector<unsigned char> charVector = {
+	    (value & 0x00000000000000ff),
+	    (value & 0x000000000000ff00)  >> 8,
+	    (value & 0x0000000000ff0000)  >> 16,
+	    (value & 0x00000000ff000000)  >> 24,
+	    (value & 0x000000ff00000000)  >> 32,
+	    (value & 0x0000ff0000000000)  >> 40,
+	    (value & 0x00ff000000000000)  >> 48,
+	    (value & 0xff00000000000000)  >> 56
+    };
+    return charVector;
+};
