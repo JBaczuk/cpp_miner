@@ -66,7 +66,7 @@ void BlockHeader::mine(uint8_t verbosity)
 
 	if(verbosity > 0)
 	{
-	    fprintf(stdout, "nonce: %02x%02x%02x%02x\n", nonce[0], nonce[1], nonce[2], nonce[3]); 
+	    fprintf(stdout, "nonce: %02x%02x%02x%02x\n", nonce[3], nonce[2], nonce[1], nonce[0]); 
 	    if(verbosity > 1)
 	    {
     	    	fprintf(stdout, "block hash: ");
@@ -93,7 +93,7 @@ bool BlockHeader::checkPoW()
             }
             fprintf(stdout, "\n");
 
-            fprintf(stdout, "nonce: 0x%02x%02x%02x%02x\n", nonce[0], nonce[1], nonce[2], nonce[3]);
+            fprintf(stdout, "nonce: 0x%02x%02x%02x%02x\n", nonce[3], nonce[2], nonce[1], nonce[0]);
             
             fprintf(stdout, "block hash: ");
             for(int i=0; i < 32; i++)
