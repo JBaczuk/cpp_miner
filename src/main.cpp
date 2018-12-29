@@ -24,7 +24,7 @@ int main (int argc, char* argv[])
 
         po::options_description desc("Allowed options");
         desc.add_options()
-            ("help", "Show this help message")
+            ("help,h", "Show this help message")
 	    ("verbosity,v", po::value<int>()->implicit_value(1),
 "Enable verbosity (optionally specify level)")
             ("command", po::value< vector<string> >(), "Command");
@@ -38,9 +38,12 @@ int main (int argc, char* argv[])
         po::notify(vm);
 
         if (vm.count("help")) {
-            std::cout << appName + "\n";
-            std::cout << "<insert program description here>\n\n";
-            std::cout << "Usage: $ cpp_miner command [options]\n";
+            std::cout << appName + "\n\n";
+            std::cout << "Usage: $ cpp_miner command [options]\n\n";
+            std::cout << "block miner\n\n";
+            std::cout << mineUsage << std::endl << std::endl;
+            std::cout << "genesis block miner\n\n";
+            std::cout << genesisGenUsage << std::endl << std::endl;
             std::cout << desc;
             return 0;
         }
