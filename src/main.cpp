@@ -102,8 +102,8 @@ int main (int argc, char* argv[])
                 throw std::logic_error("value must be a valid 64 bit unsigned int");
                 return -1;
             }
-	    uint64_t satoshiValue = (uint64_t)valueInt * COIN;
-	    std::vector<unsigned char> value = bigIntToHex(satoshiValue);
+            uint64_t satoshiValue = (uint64_t)valueInt * COIN;
+            std::vector<unsigned char> value = bigIntToHex(satoshiValue);
 
             auto timeInt = std::stoi(params[4].c_str());
             if (timeInt < 0 || timeInt > ULONG_MAX)
@@ -132,10 +132,10 @@ int main (int argc, char* argv[])
             // Construct the scriptSig
             std::vector<unsigned char> scriptSig = {0x04};
             scriptSig.insert(scriptSig.end(), nBits.begin(), nBits.end());
-	    // Not sure what this is, but it is in the genesis block:
- 	    scriptSig.insert(scriptSig.end(), {0x01, 0x04, 0x45});
+            int msgSize = coinbaseMessage.size();
+ 	        scriptSig.insert(scriptSig.end(), {0x01, 0x04, (unsigned char) msgSize});
             scriptSig.insert(scriptSig.end(), coinbaseMessage.begin(), coinbaseMessage.end());
-	    scriptSig.insert(scriptSig.begin(), scriptSig.size());
+	        scriptSig.insert(scriptSig.begin(), scriptSig.size());
 
             // Construct the coinbase transaction
             coinbaseTransaction.version.assign({0x01, 0x00, 0x00, 0x00});
@@ -148,25 +148,25 @@ int main (int argc, char* argv[])
             coinbaseTransaction.outValue = value;
             coinbaseTransaction.scriptPubKey.assign({0xac}); // OP_CHECKSIG
             coinbaseTransaction.scriptPubKey.insert(coinbaseTransaction.scriptPubKey.begin(), pubkey.begin(), pubkey.end());
-	    coinbaseTransaction.scriptPubKey.insert(coinbaseTransaction.scriptPubKey.begin(), {0x43, 0x41}); // script size and pubkey push data
+	        coinbaseTransaction.scriptPubKey.insert(coinbaseTransaction.scriptPubKey.begin(), {0x43, 0x41}); // script size and pubkey push data
             coinbaseTransaction.lockTime.assign({0x00, 0x00, 0x00, 0x00});
 
             blockHeader.nVersion.assign({0x01, 0x00, 0x00, 0x00});
             std::fill(blockHeader.hashPrevBlock.begin(), blockHeader.hashPrevBlock.end(), 0);
-	    std::vector<uint8_t> txid = coinbaseTransaction.getTxid();
+	        std::vector<uint8_t> txid = coinbaseTransaction.getTxid();
             blockHeader.merkleRoot.assign(txid.begin(), txid.end());
             blockHeader.time.assign(time.begin(), time.end());
             blockHeader.nBits.assign(nBits.begin(), nBits.end());
             blockHeader.nonce.assign(nonce.begin(), nonce.end());
-	    std::vector<unsigned char> reversedNBits = blockHeader.nBits;
-	    std::reverse(reversedNBits.begin(), reversedNBits.end());
+	        std::vector<unsigned char> reversedNBits = blockHeader.nBits;
+	        std::reverse(reversedNBits.begin(), reversedNBits.end());
             blockHeader.target = nBitsToTarget(reversedNBits.end()[-1] | (reversedNBits.end()[-2] << 8) | (reversedNBits.end()[-3] << 16) | (reversedNBits.end()[-4] << 24));
             
             // Mine the block
             blockHeader.mine(verbosity);
 
-	    std::vector<unsigned char> merkleRootSwapped = blockHeader.merkleRoot;
-	    std::reverse(merkleRootSwapped.begin(), merkleRootSwapped.end());
+	        std::vector<unsigned char> merkleRootSwapped = blockHeader.merkleRoot;
+	        std::reverse(merkleRootSwapped.begin(), merkleRootSwapped.end());
 
             fprintf(stdout, "merkle root: ");
             for(int i=0; i < 32; i++)
