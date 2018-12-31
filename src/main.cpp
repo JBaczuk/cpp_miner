@@ -140,17 +140,17 @@ int main (int argc, char* argv[])
             std::vector<unsigned char> scriptSig = {0x04};
             scriptSig.insert(scriptSig.end(), nBits.begin(), nBits.end());
             int msgSize = coinbaseMessage.size();
-	    if (msgSize < 0x4b)
-	    {
- 	    	scriptSig.insert(scriptSig.end(), {0x01, 0x04, (unsigned char) msgSize});
-	    }
-	    else
-	    {
-		// Notice this only supports up to 255 bytes
- 	    	scriptSig.insert(scriptSig.end(), {0x01, 0x04, 0x4c, (unsigned char) msgSize});
-	    }
+            if (msgSize < 0x4b)
+            {
+                scriptSig.insert(scriptSig.end(), {0x01, 0x04, (unsigned char) msgSize});
+            }
+            else
+            {
+            // Notice this only supports up to 255 bytes
+                scriptSig.insert(scriptSig.end(), {0x01, 0x04, 0x4c, (unsigned char) msgSize});
+            }
             scriptSig.insert(scriptSig.end(), coinbaseMessage.begin(), coinbaseMessage.end());
-	    scriptSig.insert(scriptSig.begin(), scriptSig.size());
+	        scriptSig.insert(scriptSig.begin(), scriptSig.size());
 
             // Construct the coinbase transaction
             coinbaseTransaction.version.assign({0x01, 0x00, 0x00, 0x00});
