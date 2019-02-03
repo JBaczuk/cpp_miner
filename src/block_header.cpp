@@ -66,7 +66,7 @@ void BlockHeader::mine(uint8_t verbosity)
 
 	if(verbosity > 0)
 	{
-	    fprintf(stdout, "nonce: %02x%02x%02x%02x\n", nonce[3], nonce[2], nonce[1], nonce[0]); 
+	    fprintf(stdout, "nonce: %02x%02x%02x%02x\n", nonce[0], nonce[1], nonce[2], nonce[3]); 
 	    if(verbosity > 1)
 	    {
     	    	fprintf(stdout, "block hash: ");
@@ -93,7 +93,7 @@ bool BlockHeader::checkPoW()
             }
             fprintf(stdout, "\n");
 
-            fprintf(stdout, "nonce: 0x%02x%02x%02x%02x\n", nonce[3], nonce[2], nonce[1], nonce[0]);
+            fprintf(stdout, "nonce: 0x%02x%02x%02x%02x\n", nonce[0], nonce[1], nonce[2], nonce[3]);
             
             fprintf(stdout, "block hash: ");
             for(int i=0; i < 32; i++)
@@ -130,16 +130,16 @@ void BlockHeader::incrementNonce()
 
 uint32_t BlockHeader::nonceToInt()
 {
-    uint32_t nonceInt = (nonce[0] << 24) | (nonce[1] << 16) | (nonce[2] << 8) | nonce[3];
+    uint32_t nonceInt = nonce[0] | (nonce[1] >> 8) | (nonce[2] >> 16) | (nonce[3] >> 24);
     return nonceInt;
 }
 
 void BlockHeader::intToNonce(uint32_t nonceInt)
 {
-    nonce[0] = nonceInt >> 24;
-    nonce[1] = nonceInt >> 16;
-    nonce[2] = nonceInt >> 8;
-    nonce[3] = nonceInt;
+    nonce[0] = nonceInt;
+    nonce[1] = nonceInt >> 8;
+    nonce[2] = nonceInt >> 16;
+    nonce[3] = nonceInt >> 24;
     serializedHeader.insert(serializedHeader.end(), nonce.begin(), nonce.end());
 }
 
