@@ -27,14 +27,9 @@ int main (int argc, char* argv[])
 
         po::options_description desc("Allowed options");
         desc.add_options()
-<<<<<<< HEAD
-            ("help,h", "Show this help message")
-=======
-            ("help", "Show this help message")
->>>>>>> add verbose modes
-	    ("verbosity,v", po::value<int>()->implicit_value(1),
-"Enable verbosity (optionally specify level)")
-            ("command", po::value< vector<string> >(), "Command");
+        ("help,h", "Show this help message")
+	    ("verbosity,v", po::value<int>()->implicit_value(1), "Enable verbosity (optionally specify level)")
+        ("command", po::value< vector<string> >(), "Command");
 
         po::positional_options_description p;
         p.add("command", -1);
@@ -150,7 +145,7 @@ int main (int argc, char* argv[])
                 scriptSig.insert(scriptSig.end(), {0x01, 0x04, 0x4c, (unsigned char) msgSize});
             }
             scriptSig.insert(scriptSig.end(), coinbaseMessage.begin(), coinbaseMessage.end());
-	        scriptSig.insert(scriptSig.begin(), scriptSig.size());
+	    scriptSig.insert(scriptSig.begin(), scriptSig.size());
 
             // Construct the coinbase transaction
             coinbaseTransaction.version.assign({0x01, 0x00, 0x00, 0x00});
