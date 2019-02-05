@@ -16,13 +16,10 @@ int main (int argc, char* argv[])
     {
         std::string appName = boost::filesystem::basename(argv[0]);
         string command;
-	int verbosity = 0;
+	    int verbosity = 0;
         vector<string> command_params;
 
-	string mineUsage = "$ cpp_miner mine <blockHeader 80B-hex> OR <version 4B-hex> <hashPrevBlock 32B-hex> <merkleRoot 32B-hex> <time 4B-hex> <nBits 4B-hex> <nonce 4B-hex>";
-        string genesisGenUsage = "$ cpp_miner genesisgen <pubkey 65B-hex> \"<coinbase-message 91B-string>\" <value 8B-decimal> <time 4B-hex> <nBits 4B-hex> <nonce 4B-hex>";
-
-	string mineUsage = "$ cpp_miner mine <blockHeader 80B-hex> OR <version 4B-hex> <hashPrevBlock 32B-hex> <merkleRoot 32B-hex> <time 4B-hex> <nBits 4B-hex> <nonce 4B-hex>";
+	    string mineUsage = "$ cpp_miner mine <blockHeader 80B-hex> OR <version 4B-hex> <hashPrevBlock 32B-hex> <merkleRoot 32B-hex> <time 4B-hex> <nBits 4B-hex> <nonce 4B-hex>";
         string genesisGenUsage = "$ cpp_miner genesisgen <pubkey 65B-hex> \"<coinbase-message 91B-string>\" <value 8B-decimal> <time 4B-hex> <nBits 4B-hex> <nonce 4B-hex>";
 
         po::options_description desc("Allowed options");
