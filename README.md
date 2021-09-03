@@ -2,22 +2,23 @@
 Basic c++ miner. This will not mine actual Bitcoin (it is much too slow), but is useful for testing, generating test fixtures, and learning how Bitcoin mining works at a basic level.
 
 ## Dependencies
+
+### macOS
+```
+$ brew install openssl boost automake
+```
+
+### Linux
+```
+$ sudo apt-get install libboost-all-dev libssl-dev autoconf
+```
+
 **libsecp256k1**:
 ```
 $ git clone https://github.com/bitcoin-core/secp256k1.git && cd secp256k1
 $ ./autogen.sh
 $ ./configure
 $ sudo make install
-```
-
-### macOS
-```
-$ brew install openssl boost
-```
-
-### Linux
-```
-$ sudo apt-get install libboost-all-dev libssl-dev
 ```
 
 ## Installation
